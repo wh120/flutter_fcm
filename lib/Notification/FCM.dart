@@ -9,8 +9,8 @@ class FCM{
 
 
   static initializeFCM({
-    void onTokenChanged(String value),
-    void onData(Map<String, dynamic> token),
+    void onTokenChanged(String token),
+    void onData(Map<String, dynamic> data),
     String icon
   }
     )async{
