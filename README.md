@@ -33,9 +33,10 @@ init()async{
       onData: (Map<String, dynamic> data) {
         print(data);
       },
-      onTokenChanged: (String value) {
-        print(value);
+      onTokenChanged: (String token) {
+        print(token);
       },
+      icon: 'stem_cells'
     );
   }catch(e){}
 }
