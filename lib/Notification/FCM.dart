@@ -10,12 +10,16 @@ class FCM{
 
   static initializeFCM({
     void onTokenChanged(String value),
-    void onData(Map<String, dynamic> data)
+    void onData(Map<String, dynamic> data),
+    String icon
   }
     )async{
 
 
-    await LocalNotification.initializeLocalNotification(onData);
+    await LocalNotification.initializeLocalNotification(
+      onData: onData,
+      icon: icon
+    );
     await Firebase.initializeApp();
     FirebaseMessaging.instance.getToken().then(onTokenChanged);
     Stream<String> _tokenStream = FirebaseMessaging.instance.onTokenRefresh;

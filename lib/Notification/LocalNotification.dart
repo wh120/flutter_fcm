@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class LocalNotification{
 
+
   /// Create a [AndroidNotificationChannel] for heads up notifications
   static AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
@@ -20,7 +21,10 @@ class LocalNotification{
   FlutterLocalNotificationsPlugin();
 
 
-  static initializeLocalNotification(void onData(Map<String, dynamic> data))async{
+  static initializeLocalNotification({
+    void onData(Map<String, dynamic> data),
+        String icon
+      } )async{
 
     // Create an Android Notification Channel.
     ///
@@ -33,8 +37,8 @@ class LocalNotification{
 
 
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-    const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('stem_cells');
+     AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings(icon);
     final IOSInitializationSettings initializationSettingsIOS =
     IOSInitializationSettings(
         onDidReceiveLocalNotification: onDidReceiveLocalNotification);
@@ -79,7 +83,7 @@ class LocalNotification{
             channel.description,
             // TODO add a proper drawable resource to android, for now using
             //      one that already exists in example app.
-            icon: 'stem_cells',
+           // icon: icon,
           ),
         ),
         payload: jsonEncode( payload)
