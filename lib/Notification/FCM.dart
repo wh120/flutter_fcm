@@ -6,8 +6,6 @@ import 'LocalNotification.dart';
 
 class FCM{
 
-
-
   static initializeFCM({
     void onTokenChanged(String token),
     void onData(Map<String, dynamic> data),
@@ -52,7 +50,11 @@ class FCM{
       AndroidNotification android = message.notification?.android;
 
       if (notification != null && android != null) {
-        LocalNotification.showNotification(notification , message.data);
+        LocalNotification.showNotification(
+            notification: notification ,
+            payload:  message.data,
+            icon: icon
+        );
       }
     });
 
@@ -65,7 +67,7 @@ class FCM{
     FirebaseMessaging.onBackgroundMessage((RemoteMessage message)async {
       print('A new onBackgroundMessage event was published!');
       onData(message.data);
-    }
+     }
     );
   }
 

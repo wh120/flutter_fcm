@@ -70,7 +70,12 @@ class LocalNotification{
 
   }
 
-  static showNotification(RemoteNotification notification , Map<String, dynamic>  payload){
+  static showNotification({
+    RemoteNotification notification ,
+    Map<String, dynamic>  payload,
+    String icon
+    }
+    ){
 
     flutterLocalNotificationsPlugin.show(
         notification.hashCode,
@@ -83,7 +88,7 @@ class LocalNotification{
             channel.description,
             // TODO add a proper drawable resource to android, for now using
             //      one that already exists in example app.
-           // icon: icon,
+           icon: icon,
           ),
         ),
         payload: jsonEncode( payload)
