@@ -1,8 +1,10 @@
 name: flutter_fcm
 description: Firebase Cloud Messaging (FCM)  Flutter package.
 version: 0.0.1
-author:
-homepage:
+author: Mhd Wael Alhalabi
+homepage: https://github.com/wh120/flutter_fcm
+repository: https://github.com/wh120/flutter_fcm
+issue_tracker: https://github.com/wh120/flutter_fcm/issues
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -11,7 +13,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_messaging: ^9.1.3
+  firebase_messaging: ^10.0.0
+  firebase_core: ^1.2.0
   flutter_local_notifications: ^5.0.0+3
 
 dev_dependencies:
