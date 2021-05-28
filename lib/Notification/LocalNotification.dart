@@ -22,7 +22,7 @@ class LocalNotification{
 
 
   static initializeLocalNotification({
-    void onData(Map<String, dynamic> data),
+    void onNotificationPressed(Map<String, dynamic> data),
         String icon
       } )async{
 
@@ -47,7 +47,7 @@ class LocalNotification{
         iOS: initializationSettingsIOS);
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (payload) {
-         return onSelectNotification(payload: payload , onData: onData);
+         return onSelectNotification(payload: payload , onData: onNotificationPressed);
         },);
   }
 

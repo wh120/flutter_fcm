@@ -8,14 +8,14 @@ class FCM{
 
   static initializeFCM({
     void onTokenChanged(String token),
-    void onData(Map<String, dynamic> data),
+    void onNotificationPressed(Map<String, dynamic> data),
     String icon
   }
     )async{
 
 
     await LocalNotification.initializeLocalNotification(
-      onData: onData,
+        onNotificationPressed: onNotificationPressed,
       icon: icon
     );
     await Firebase.initializeApp();
@@ -60,13 +60,13 @@ class FCM{
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('A new onMessageOpenedApp event was published!');
-      onData(message.data);
+      onNotificationPressed(message.data);
        }
     );
 
     FirebaseMessaging.onBackgroundMessage((RemoteMessage message)async {
       print('A new onBackgroundMessage event was published!');
-      onData(message.data);
+      onNotificationPressed(message.data);
      }
     );
   }
