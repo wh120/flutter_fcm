@@ -1,6 +1,6 @@
 name: flutter_fcm
 description: Firebase Cloud Messaging (FCM)  Flutter package.
-version: 0.0.1
+version: 0.0.3
 author: Mhd Wael Alhalabi
 homepage: https://github.com/wh120/flutter_fcm
 repository: https://github.com/wh120/flutter_fcm
