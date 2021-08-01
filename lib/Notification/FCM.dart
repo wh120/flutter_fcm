@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'LocalNotification.dart';
 
 
@@ -9,6 +12,7 @@ class FCM{
   static initializeFCM({
     void onTokenChanged(String token),
     void onNotificationPressed(Map<String, dynamic> data),
+      GlobalKey<NavigatorState> navigatorKey,
     String icon
   }
     )async{
@@ -34,12 +38,24 @@ class FCM{
       sound: true,
     );
 
+
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage message) {
+
+      print('getInitialMessage');
+      print(message);
       if (message != null) {
-        print('getInitialMessage');
-        print(message);
+        if(navigatorKey!= null)
+        Timer.periodic(
+          Duration(milliseconds: 500),
+              (timer) {
+            if ( navigatorKey.currentState == null) return;
+            onNotificationPressed(message.data);
+            timer.cancel();
+          },
+        );
+
       }
     });
 
