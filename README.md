@@ -1,4 +1,3 @@
-[<img src="https://raw.githubusercontent.com/FirebaseExtended/flutterfire/master/resources/flutter_favorite.png" width="200" />](https://flutter.dev/docs/development/packages-and-plugins/favorites)
 
 # Firebase Messaging Plugin for Flutter
 
