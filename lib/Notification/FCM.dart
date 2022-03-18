@@ -13,7 +13,7 @@ class FCM{
   static initializeFCM({
     void onTokenChanged(String token),
     void onNotificationPressed(Map<String, dynamic> data),
-    void onNotificationReceived(Map<String, dynamic> data),
+    BackgroundMessageHandler onNotificationReceived,
       GlobalKey<NavigatorState> navigatorKey,
     String icon
   }
@@ -31,17 +31,7 @@ class FCM{
     _tokenStream.listen(onTokenChanged);
 
     // Set the background messaging handler early on, as a named top-level function
-    FirebaseMessaging.onBackgroundMessage(
-
-            (RemoteMessage message) async {
-              onNotificationReceived( message?.data??{});
-          // If you're going to use other Firebase services in the background, such as Firestore,
-          // make sure you call `initializeApp` before using other Firebase services.
-          await Firebase.initializeApp();
-          print('Handling a background message ${message.messageId}');
-
-        }
-    );
+    FirebaseMessaging.onBackgroundMessage(onNotificationReceived);
 
     /// Update the iOS foreground notification presentation options to allow
     /// heads up notifications.
@@ -75,7 +65,7 @@ class FCM{
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('A new onMessage event was published!');
 
-      onNotificationReceived( message.data);
+      onNotificationReceived( message);
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
 
@@ -94,12 +84,12 @@ class FCM{
        }
     );
 
-    // FirebaseMessaging.onBackgroundMessage((RemoteMessage message)async {
-    //   print('A new onBackgroundMessage event was published!');
-    //   onNotificationPressed(message.data);
-    //   onNotificationReceived( message.data);
-    //  }
-    //);
+    FirebaseMessaging.onBackgroundMessage((RemoteMessage message)async {
+      print('A new onBackgroundMessage event was published!');
+      onNotificationPressed(message.data);
+      onNotificationReceived( message);
+     }
+    );
   }
 
   //static Future<void> _firebaseMessagingBackgroundHandler
