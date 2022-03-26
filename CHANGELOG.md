@@ -1,3 +1,6 @@
+## 0.0.14
+ - **FIX**: Remove Flutter Favorite badge
+
 ## 0.0.13
  - **FIX**: Update a dependencies
  

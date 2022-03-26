@@ -1,4 +1,4 @@
-
+dart pub publish --dry-run
 # Firebase Messaging Plugin for Flutter
 
 A Flutter plugin to use the [Firebase Cloud Messaging API](https://firebase.google.com/docs/cloud-messaging).
