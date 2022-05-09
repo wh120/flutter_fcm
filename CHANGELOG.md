@@ -1,3 +1,6 @@
+## 1.0.0
+ - **FIX**: Migrate to null safety.
+
 ## 0.0.14
  - **FIX**: Remove Flutter Favorite badge
 

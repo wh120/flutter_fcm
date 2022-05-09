@@ -5,26 +5,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'LocalNotification.dart';
 
+class FCM {
+  static late ValueChanged<String?> _onTokenChanged;
 
-class FCM{
-
-  static ValueChanged<String> _onTokenChanged;
-  static var _onNotificationReceived;
-  static initializeFCM({
-    void onTokenChanged(String token),
-    void onNotificationPressed(Map<String, dynamic> data),
-    BackgroundMessageHandler onNotificationReceived,
-      GlobalKey<NavigatorState> navigatorKey,
-    String icon
-  }
-    )async{
-    _onTokenChanged=onTokenChanged;
-    _onNotificationReceived = onNotificationReceived;
+  static initializeFCM(
+      {required void onTokenChanged(String? token),
+      void onNotificationPressed(Map<String, dynamic> data)?,
+      required BackgroundMessageHandler onNotificationReceived,
+      GlobalKey<NavigatorState>? navigatorKey,
+      required String icon}) async {
+    _onTokenChanged = onTokenChanged;
 
     await LocalNotification.initializeLocalNotification(
-        onNotificationPressed: onNotificationPressed,
-      icon: icon
-    );
+        onNotificationPressed: onNotificationPressed, icon: icon);
     await Firebase.initializeApp();
     FirebaseMessaging.instance.getToken().then(onTokenChanged);
     Stream<String> _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
@@ -35,69 +28,59 @@ class FCM{
 
     /// Update the iOS foreground notification presentation options to allow
     /// heads up notifications.
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
     );
 
-
     FirebaseMessaging.instance
         .getInitialMessage()
-        .then((RemoteMessage message) {
-
+        .then((RemoteMessage? message) {
       print('getInitialMessage');
       print(message);
       if (message != null) {
-        if(navigatorKey!= null)
-        Timer.periodic(
-          Duration(milliseconds: 500),
-              (timer) {
-            if ( navigatorKey.currentState == null) return;
-            onNotificationPressed(message.data);
-            timer.cancel();
-          },
-        );
-
+        if (navigatorKey != null)
+          Timer.periodic(
+            Duration(milliseconds: 500),
+            (timer) {
+              if (navigatorKey.currentState == null) return;
+              onNotificationPressed!(message.data);
+              timer.cancel();
+            },
+          );
       }
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('A new onMessage event was published!');
 
-      onNotificationReceived( message);
-      RemoteNotification notification = message.notification;
-      AndroidNotification android = message.notification?.android;
+      onNotificationReceived(message);
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
 
       if (notification != null && android != null) {
         LocalNotification.showNotification(
-            notification: notification ,
-            payload:  message.data,
-            icon: icon
-        );
+            notification: notification, payload: message.data, icon: icon);
       }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('A new onMessageOpenedApp event was published!');
-      onNotificationPressed(message.data);
-       }
-    );
+      onNotificationPressed!(message.data);
+    });
 
-    FirebaseMessaging.onBackgroundMessage((RemoteMessage message)async {
+    FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
       print('A new onBackgroundMessage event was published!');
-      onNotificationPressed(message.data);
-      onNotificationReceived( message);
-     }
-    );
+      onNotificationPressed!(message.data);
+      onNotificationReceived(message);
+    });
   }
 
   //static Future<void> _firebaseMessagingBackgroundHandler
-  static deleteRefreshToken(){
-
+  static deleteRefreshToken() {
     FirebaseMessaging.instance.deleteToken();
     FirebaseMessaging.instance.getToken().then(_onTokenChanged);
   }
-
-
 }

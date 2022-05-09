@@ -4,9 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class LocalNotification{
-
-
+class LocalNotification {
   /// Create a [AndroidNotificationChannel] for heads up notifications
   static AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
@@ -15,68 +13,58 @@ class LocalNotification{
     importance: Importance.high,
   );
 
-
   /// Initialize the [FlutterLocalNotificationsPlugin] package.
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
-
-  static initializeLocalNotification({
-    void onNotificationPressed(Map<String, dynamic> data),
-        String icon
-      } )async{
-
+  static initializeLocalNotification(
+      {void onNotificationPressed(Map<String, dynamic> data)?,
+      required String icon}) async {
     // Create an Android Notification Channel.
     ///
     /// We use this channel in the `AndroidManifest.xml` file to override the
     /// default FCM channel to enable heads up notifications.
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
-
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-     AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings(icon);
+    AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings(icon);
     final IOSInitializationSettings initializationSettingsIOS =
-    IOSInitializationSettings(
-        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
-    final InitializationSettings initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid,
-        iOS: initializationSettingsIOS);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: (payload) {
-         return onSelectNotification(payload: payload , onData: onNotificationPressed);
-        },);
+        IOSInitializationSettings(
+            onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+            android: initializationSettingsAndroid,
+            iOS: initializationSettingsIOS);
+    flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onSelectNotification: (payload) {
+        onSelectNotification(payload: payload, onData: onNotificationPressed);
+      },
+    );
   }
 
-  static Future onSelectNotification({String payload , onData}) async {
-
+  static Future onSelectNotification({String? payload, onData}) async {
     if (payload != null) {
       debugPrint('notification payload: $payload');
 
       var jsonData = jsonDecode(payload);
       onData(jsonData);
-
     }
-
   }
-
 
   static Future onDidReceiveLocalNotification(
-      int id, String title, String body, String payload) async {
+      int id, String? title, String? body, String? payload) async {
     print(title);
-
   }
 
-  static showNotification({
-    RemoteNotification notification ,
-    Map<String, dynamic>  payload,
-    String icon
-    }
-    ){
-
+  static showNotification(
+      {required RemoteNotification notification,
+      Map<String, dynamic>? payload,
+      String? icon}) {
     flutterLocalNotificationsPlugin.show(
         notification.hashCode,
         notification.title,
@@ -85,16 +73,12 @@ class LocalNotification{
           android: AndroidNotificationDetails(
             channel.id,
             channel.name,
-           // channel.description,
+            // channel.description,
             // TODO add a proper drawable resource to android, for now using
             //      one that already exists in example app.
-           icon: icon,
+            icon: icon,
           ),
         ),
-        payload: jsonEncode( payload)
-    );
-
+        payload: jsonEncode(payload));
   }
-
-
 }
