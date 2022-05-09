@@ -1,5 +1,8 @@
+## 1.0.1
+ - **FIX**:   Update a README.md .
+
 ## 1.0.0
- - **FIX**: Migrate to null safety.
+ - **FIX**: Migrate to null safety & Update a dependencies.
 
 ## 0.0.14
  - **FIX**: Remove Flutter Favorite badge

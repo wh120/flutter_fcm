@@ -1,4 +1,3 @@
-dart pub publish --dry-run
 # Firebase Messaging Plugin for Flutter
 
 A Flutter plugin to use the [Firebase Cloud Messaging API](https://firebase.google.com/docs/cloud-messaging).
@@ -13,7 +12,9 @@ To get started with Firebase Cloud Messaging for Flutter, please [see the docume
 ## Why flutter_fcm?
 
 - 🚀 Easy to use 
-- ⚡ Supports local notification
+- ❤ Supports local notification
+- 🛡️ Null safety
+- ⚡ On notification Received/Pressed works in all states: foreground,background and even when app is closed(not running)
 
 
 ## Usage
