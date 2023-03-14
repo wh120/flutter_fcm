@@ -6,16 +6,22 @@ import 'package:flutter/material.dart';
 import 'local_notification.dart';
 
 class FCM {
+  FCM._(){}
+
   static late ValueChanged<String?> _onTokenChanged;
 
   static initializeFCM(
-      {required void onTokenChanged(String? token),
-      void onNotificationPressed(Map<String, dynamic> data)?,
-      required BackgroundMessageHandler onNotificationReceived,
-      GlobalKey<NavigatorState>? navigatorKey,
-      required String icon}) async {
-    _onTokenChanged = onTokenChanged;
+      {
+        required void onTokenChanged(String? token),
+        void onNotificationPressed(Map<String, dynamic> data)?,
+        required BackgroundMessageHandler onNotificationReceived,
+        GlobalKey<NavigatorState>? navigatorKey,
+        required String icon,
+        bool withLocalNotification=true
+      }
+      ) async {
 
+    _onTokenChanged = onTokenChanged;
     await LocalNotification.initializeLocalNotification(
         onNotificationPressed: onNotificationPressed, icon: icon);
     await Firebase.initializeApp();
@@ -44,7 +50,7 @@ class FCM {
         if (navigatorKey != null)
           Timer.periodic(
             Duration(milliseconds: 500),
-            (timer) {
+                (timer) {
               if (navigatorKey.currentState == null) return;
               onNotificationPressed!(message.data);
               timer.cancel();
@@ -60,7 +66,7 @@ class FCM {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
 
-      if (notification != null && android != null) {
+      if (notification != null && android != null && withLocalNotification) {
         LocalNotification.showNotification(
             notification: notification, payload: message.data, icon: icon);
       }
