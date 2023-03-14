@@ -1,8 +1,11 @@
+## 1.0.10
+- **FIX**:    Update a README.md .
+
 ## 1.0.9
-- **Update**: Update firebase dependency to the latest release. .
+- **Update**: Update firebase dependency to the latest release .
 
 ## 1.0.8
-- **Update**: Update a dependency to the latest release. .
+- **Update**: Update a dependency to the latest release .
 
 ## 1.0.1
  - **FIX**:   Update a README.md .

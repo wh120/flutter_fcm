@@ -16,48 +16,60 @@ To get started with Firebase Cloud Messaging for Flutter, please [see the docume
 - 🛡️ Null safety
 - ⚡ On notification Received/Pressed works in all states: foreground,background and even when app is closed(not running)
 
+## Getting Started
+
+To get started with Firebase Cloud Messaging for Flutter,
+see [Android Installation](https://firebase.flutter.dev/docs/manual-installation/android).
+see [iOS Installation](https://firebase.flutter.dev/docs/manual-installation/ios).
 
 ## Usage
 
 The easiest way to use this library is via the top-level functions.
 
 ```dart
-import 'package:audioplayers/audioplayers.dart';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_fcm/flutter_fcm.dart';
 
 class Messaging {
-  static String token='token';
+  static String? token;
 
-  static deleteToken(){
+  static deleteToken() {
+    Messaging.token = null;
     FCM.deleteRefreshToken();
   }
 
+  @pragma('vm:entry-point')
   static Future<void> onNotificationReceived(RemoteMessage message) async {
     await Firebase.initializeApp();
+    //print('Handling a message ${message}');
 
-    print('Handling a message ${message.messageId}');
   }
 
-  static initFCM()async{
-    try{
-
+  @pragma('vm:entry-point')
+  static initFCM() async {
+    try {
+      await Firebase.initializeApp();
       await FCM.initializeFCM(
+        withLocalNotification: true,
+        // navigatorKey: Keys.navigatorKey,
         onNotificationReceived: onNotificationReceived,
-          onNotificationPressed: (Map<String, dynamic> data) {
-            print(data);
-          },
-          onTokenChanged: (String token) {
+        onNotificationPressed: (Map<String, dynamic> data) {
+
+        },
+        onTokenChanged: (String? token) {
+          if (token != null) {
+            //print('FCM token  $token');
             Messaging.token = token;
-            print('FCM token  '+token);
 
-          },
+
+          }
+        },
         // TODO add this icon to android/app/src/main/res/drawable/ic_launcher.png
-          icon: 'ic_launcher',
+        icon: 'ic_launcher',
       );
-
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }

@@ -11,16 +11,12 @@ class FCM {
   static late ValueChanged<String?> _onTokenChanged;
 
   static initializeFCM(
-      {
-        required void onTokenChanged(String? token),
-        void onNotificationPressed(Map<String, dynamic> data)?,
-        required BackgroundMessageHandler onNotificationReceived,
-        GlobalKey<NavigatorState>? navigatorKey,
-        required String icon,
-        bool withLocalNotification=true
-      }
-      ) async {
-
+      {required void onTokenChanged(String? token),
+      void onNotificationPressed(Map<String, dynamic> data)?,
+      required BackgroundMessageHandler onNotificationReceived,
+      GlobalKey<NavigatorState>? navigatorKey,
+      required String icon,
+      bool withLocalNotification = true}) async {
     _onTokenChanged = onTokenChanged;
     await LocalNotification.initializeLocalNotification(
         onNotificationPressed: onNotificationPressed, icon: icon);
@@ -50,7 +46,7 @@ class FCM {
         if (navigatorKey != null)
           Timer.periodic(
             Duration(milliseconds: 500),
-                (timer) {
+            (timer) {
               if (navigatorKey.currentState == null) return;
               onNotificationPressed!(message.data);
               timer.cancel();

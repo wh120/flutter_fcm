@@ -1,6 +1,6 @@
 name: flutter_fcm
 description: Flutter plugin for Firebase Cloud Messaging (FCM) , a cross-platform messaging solution that lets you reliably deliver messages on Android and iOS.
-version: 1.0.9
+version: 1.0.11
 #author: Mhd Wael Alhalabi
 homepage: https://github.com/wh120/flutter_fcm
 repository: https://github.com/wh120/flutter_fcm
