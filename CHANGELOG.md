@@ -1,3 +1,6 @@
+## 1.0.11
+**Update**: Update flutter_local_notifications dependency to the latest release .
+
 ## 1.0.10
 - **FIX**:    Update a README.md .
 

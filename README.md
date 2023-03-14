@@ -20,7 +20,7 @@ To get started with Firebase Cloud Messaging for Flutter, please [see the docume
 
 To get started with Firebase Cloud Messaging for Flutter,
 see [Android Installation](https://firebase.flutter.dev/docs/manual-installation/android).
-see [iOS Installation](https://firebase.flutter.dev/docs/manual-installation/ios).
+and [iOS Installation](https://firebase.flutter.dev/docs/manual-installation/ios).
 
 ## Usage
 

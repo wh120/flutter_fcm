@@ -33,7 +33,7 @@ class LocalNotification {
     AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings(icon);
     final DarwinInitializationSettings initializationSettingsIOS =
-    DarwinInitializationSettings(
+        DarwinInitializationSettings(
             onDidReceiveLocalNotification: onDidReceiveLocalNotification);
     final InitializationSettings initializationSettings =
         InitializationSettings(
@@ -41,17 +41,16 @@ class LocalNotification {
             iOS: initializationSettingsIOS);
     flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-
       onDidReceiveNotificationResponse: (notificationResponse) {
-        onDidReceiveNotificationResponse(notificationResponse: notificationResponse, onData: onNotificationPressed);
+        onDidReceiveNotificationResponse(
+            notificationResponse: notificationResponse,
+            onData: onNotificationPressed);
       },
     );
   }
 
-
-
   static Future onDidReceiveLocalNotification(
-      int id, String? title, String? body, String? payload ) async {
+      int id, String? title, String? body, String? payload) async {
     print(title);
   }
 
@@ -63,7 +62,6 @@ class LocalNotification {
       var jsonData = jsonDecode(payload!);
       onData(jsonData);
     }
-
   }
 
   static showNotification(
