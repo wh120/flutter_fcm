@@ -1,3 +1,3 @@
 library flutter_fcm;
 
-export 'Notification/FCM.dart';
+export 'notification/fcm.dart';

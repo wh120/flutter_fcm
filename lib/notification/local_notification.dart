@@ -20,7 +20,7 @@ class LocalNotification {
   static initializeLocalNotification(
       {void onNotificationPressed(Map<String, dynamic> data)?,
       required String icon}) async {
-    // Create an Android Notification Channel.
+    // Create an Android notification Channel.
     ///
     /// We use this channel in the `AndroidManifest.xml` file to override the
     /// default FCM channel to enable heads up notifications.
