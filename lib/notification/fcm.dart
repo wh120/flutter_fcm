@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'local_notification.dart';
 
 class FCM {
-  FCM._(){}
+  FCM._();
 
   static late ValueChanged<String?> _onTokenChanged;
 
