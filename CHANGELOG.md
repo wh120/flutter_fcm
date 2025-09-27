@@ -1,3 +1,48 @@
+## 1.3.3
+- **Update**: Update flutter_local_notifications, firebase dependencies to the latest releases .
+
+## 1.3.2
+- **Update**: Update flutter_local_notifications, firebase dependencies to the latest releases .
+
+## 1.3.1
+- **Update**: Update firebase dependencies to the latest releases .
+
+## 1.3.0
+- **FIX**: fix On Notification Pressed.
+
+
+## 1.2.8
+- **Update**: Update flutter_local_notifications, firebase dependencies to the latest releases .
+
+
+## 1.2.7
+- **Update**: Update flutter_local_notifications, firebase dependencies to the latest releases .
+
+
+## 1.2.6
+- **Update**: Update flutter_local_notifications, firebase dependencies to the latest releases .
+
+
+## 1.2.4
+- **Update**: Update flutter_local_notifications, firebase dependencies to the latest releases .
+
+
+## 1.2.1
+- **Update**: Update firebase dependencies to the latest releases .
+- **FEAT**: Ask Notifications permission.
+
+
+## 1.1.1
+- **Update**: Update flutter_local_notifications,firebase dependencies to the latest releases .
+- **FEAT**: add subscribeToTopic method.
+- **FEAT**: add unsubscribeFromTopic method.
+
+## 1.1.0
+**Update**: Update flutter_local_notifications,firebase dependencies to the latest releases .
+
+## 1.0.12
+**Update**: Update flutter_local_notifications,firebase dependencies to the latest releases .
+
 ## 1.0.11
 **Update**: Update flutter_local_notifications dependency to the latest release .
 

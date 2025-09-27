@@ -39,6 +39,12 @@ class Messaging {
     Messaging.token = null;
     FCM.deleteRefreshToken();
   }
+  static subscribeToTopic(String topic) {
+    FCM.subscribeToTopic(topic);
+  }
+  static unsubscribeFromTopic(String topic) {
+    FCM.unsubscribeFromTopic(topic);
+  }
 
   @pragma('vm:entry-point')
   static Future<void> onNotificationReceived(RemoteMessage message) async {
@@ -50,7 +56,9 @@ class Messaging {
   @pragma('vm:entry-point')
   static initFCM() async {
     try {
-      await Firebase.initializeApp();
+      await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform
+      );
       await FCM.initializeFCM(
         withLocalNotification: true,
         // navigatorKey: Keys.navigatorKey,

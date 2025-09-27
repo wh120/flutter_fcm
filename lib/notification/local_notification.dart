@@ -1,10 +1,13 @@
 import 'dart:convert';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+typedef OnNotificationPressed = void Function(Map<String, dynamic> data);
+
 class LocalNotification {
+  static OnNotificationPressed? onPressed;
+
   /// Create a [AndroidNotificationChannel] for heads up notifications
   static AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
@@ -18,8 +21,9 @@ class LocalNotification {
       FlutterLocalNotificationsPlugin();
 
   static initializeLocalNotification(
-      {void onNotificationPressed(Map<String, dynamic> data)?,
+      {OnNotificationPressed? onNotificationPressed,
       required String icon}) async {
+    onPressed = onNotificationPressed;
     // Create an Android notification Channel.
     ///
     /// We use this channel in the `AndroidManifest.xml` file to override the
@@ -33,35 +37,17 @@ class LocalNotification {
     AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings(icon);
     final DarwinInitializationSettings initializationSettingsIOS =
-        DarwinInitializationSettings(
-            onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+        DarwinInitializationSettings();
     final InitializationSettings initializationSettings =
         InitializationSettings(
             android: initializationSettingsAndroid,
             iOS: initializationSettingsIOS);
+
     flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onDidReceiveNotificationResponse: (notificationResponse) {
-        onDidReceiveNotificationResponse(
-            notificationResponse: notificationResponse,
-            onData: onNotificationPressed);
-      },
+      onDidReceiveNotificationResponse: notificationTapBackground,
+      onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
     );
-  }
-
-  static Future onDidReceiveLocalNotification(
-      int id, String? title, String? body, String? payload) async {
-    print(title);
-  }
-
-  static void onDidReceiveNotificationResponse(
-      {required NotificationResponse notificationResponse, onData}) async {
-    final String? payload = notificationResponse.payload;
-    if (notificationResponse.payload != null) {
-      debugPrint('notification payload: $payload');
-      var jsonData = jsonDecode(payload!);
-      onData(jsonData);
-    }
   }
 
   static showNotification(
@@ -69,19 +55,41 @@ class LocalNotification {
       Map<String, dynamic>? payload,
       String? icon}) {
     flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            // channel.description,
-            // TODO add a proper drawable resource to android, for now using
-            //      one that already exists in example app.
-            icon: icon,
-          ),
+      notification.hashCode,
+      notification.title,
+      notification.body,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          // channel.description,
+          // Add a proper drawable resource to android, for now using
+          //      one that already exists in example app.
+          icon: icon,
         ),
-        payload: jsonEncode(payload));
+      ),
+      payload: jsonEncode(payload),
+    );
+  }
+
+  @pragma('vm:entry-point')
+  static void notificationTapBackground(
+      NotificationResponse notificationResponse) {
+    // ignore: avoid_print
+    print('notification(${notificationResponse.id}) action tapped: '
+        '${notificationResponse.actionId} with'
+        ' payload: ${notificationResponse.payload}');
+    if (notificationResponse.input?.isNotEmpty ?? false) {
+      // ignore: avoid_print
+      print(
+          'notification action tapped with input: ${notificationResponse.input}');
+    }
+
+    final String? payload = notificationResponse.payload;
+    if (notificationResponse.payload != null) {
+      debugPrint('notification payload: $payload');
+      var jsonData = jsonDecode(payload!);
+      onPressed?.call(jsonData);
+    }
   }
 }
