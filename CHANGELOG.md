@@ -1,4 +1,4 @@
-## 1.3.3
+## 1.3.4
 - **Update**: Update flutter_local_notifications, firebase dependencies to the latest releases .
 
 ## 1.3.2

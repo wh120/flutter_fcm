@@ -21,8 +21,8 @@ class FCM {
   ///
   /// This method initializes Firebase, sets up token handling, background message handling, and notification presentation options for iOS and Android.
   static Future<void> initializeFCM(
-      {required void onTokenChanged(String? token),
-      void onNotificationPressed(Map<String, dynamic> data)?,
+      {required void Function(String? token) onTokenChanged,
+      void Function(Map<String, dynamic> data)? onNotificationPressed,
       required BackgroundMessageHandler onNotificationReceived,
       GlobalKey<NavigatorState>? navigatorKey,
       required String icon,
@@ -47,8 +47,8 @@ class FCM {
     await LocalNotification.initializeLocalNotification(
         onNotificationPressed: onNotificationPressed, icon: icon);
     messaging.getToken().then(onTokenChanged);
-    Stream<String> _tokenStream = messaging.onTokenRefresh;
-    _tokenStream.listen(onTokenChanged);
+    Stream<String> tokenStream = messaging.onTokenRefresh;
+    tokenStream.listen(onTokenChanged);
 
     // Set the background messaging handler early on, as a named top-level function
     FirebaseMessaging.onBackgroundMessage(onNotificationReceived);
