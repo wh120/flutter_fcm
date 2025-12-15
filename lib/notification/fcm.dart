@@ -102,13 +102,13 @@ class FCM {
   }
 
   /// Delete the FCM refresh token and retrieve a new token.
-  static deleteRefreshToken() {
+  static void deleteRefreshToken() {
     FirebaseMessaging.instance.deleteToken();
     FirebaseMessaging.instance.getToken().then(_onTokenChanged);
   }
 
   /// To subscribe to a topic, call subscribeToTopic() with the topic name. This method returns a Future, which resolves when the subscription succeeded:
-  static subscribeToTopic(String topic) {
+  static void subscribeToTopic(String topic) {
     FirebaseMessaging.instance.subscribeToTopic(topic);
   }
 
